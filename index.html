@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Test</title>
+</head>
+<body style="background:black; color:white;">
+
+<button id="btn" style="font-size:30px;">
+Sound Test
+</button>
+
+<audio id="sound" src="on.mp3"></audio>
+
+<script>
+document.getElementById("btn").onclick = function () {
+  const s = document.getElementById("sound");
+  s.currentTime = 0;
+  s.play()
+    .then(() => alert("PLAY OK"))
+    .catch(() => alert("BLOCKED"));
+};
+</script>
+
+</body>
+</html>
