@@ -20,35 +20,55 @@
       width: 100vw;
       height: 100vh;
       object-fit: contain;
-      z-index: 1;
       position: relative;
+      z-index: 1;
     }
 
     /* 분홍빛 이펙트 */
     #effect {
       position: fixed;
-      top: 0;
+      top: -5vh; /* Y좌표 위로 */
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: radial-gradient(circle,
-        rgba(255, 60, 180, 0.75) 0%,
-        rgba(255, 60, 180, 0.45) 30%,
-        rgba(255, 60, 180, 0.2) 55%,
-        rgba(255, 60, 180, 0) 70%);
-      opacity: 0;
       pointer-events: none;
-      transition: opacity 0.15s ease-out;
+      opacity: 0;
       z-index: 2;
+
+      background: radial-gradient(circle,
+        rgba(255, 60, 180, 0.6) 0%,
+        rgba(255, 60, 180, 0.35) 35%,
+        rgba(255, 60, 180, 0.15) 55%,
+        rgba(255, 60, 180, 0) 70%);
+    }
+
+    /* 반복 펄럭이는 애니메이션 */
+    #effect.active {
+      animation: pulse 0.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 0.3;
+        transform: scale(0.8);
+      }
+      50% {
+        opacity: 0.5;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- 가샤트 이미지 -->
+  <!-- 가샤트 -->
   <img id="gashat" src="gashat.png" alt="Gashat">
 
-  <!-- 분홍 이펙트 -->
+  <!-- 분홍빛 -->
   <div id="effect"></div>
 
   <!-- 사운드 -->
@@ -60,7 +80,7 @@
     const effect = document.getElementById("effect");
 
     gashat.addEventListener("click", () => {
-      // 사운드 재생
+      // 사운드
       sound.currentTime = 0;
       sound.play();
 
@@ -69,13 +89,8 @@
         navigator.vibrate(120);
       }
 
-      // 분홍빛 이펙트 ON
-      effect.style.opacity = "1";
-
-      // 잠깐 후 OFF
-      setTimeout(() => {
-        effect.style.opacity = "0";
-      }, 150);
+      // 분홍빛 반복 시작
+      effect.classList.add("active");
     });
   </script>
 
