@@ -1,25 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>Test</title>
+  <meta charset="UTF-8">
+  <title>가샤트 테스트</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+      touch-action: manipulation;
+    }
+
+    #gashat {
+      width: 100vw;
+      height: 100vh;
+      object-fit: contain;
+    }
+  </style>
 </head>
-<body style="background:black; color:white;">
+<body>
 
-<button id="btn" style="font-size:30px;">
-Sound Test
-</button>
+<img id="gashat" src="gashat.png" alt="Gashat">
 
-<audio id="sound" src="on.mp3"></audio>
+<audio id="sound" src="on.mp3" preload="auto"></audio>
 
 <script>
-document.getElementById("btn").onclick = function () {
-  const s = document.getElementById("sound");
-  s.currentTime = 0;
-  s.play()
-    .then(() => alert("PLAY OK"))
-    .catch(() => alert("BLOCKED"));
-};
+  const img = document.getElementById("gashat");
+  const sound = document.getElementById("sound");
+
+  img.addEventListener("click", () => {
+    sound.currentTime = 0;
+    sound.play();
+    if (navigator.vibrate) {
+      navigator.vibrate(120);
+    }
+  });
 </script>
 
 </body>
