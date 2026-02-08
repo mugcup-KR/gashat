@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>가샤트 테스트</title>
+  <title>가샤트</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
   <style>
@@ -20,27 +20,64 @@
       width: 100vw;
       height: 100vh;
       object-fit: contain;
+      z-index: 1;
+      position: relative;
+    }
+
+    /* 분홍빛 이펙트 */
+    #effect {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle,
+        rgba(255, 60, 180, 0.75) 0%,
+        rgba(255, 60, 180, 0.45) 30%,
+        rgba(255, 60, 180, 0.2) 55%,
+        rgba(255, 60, 180, 0) 70%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease-out;
+      z-index: 2;
     }
   </style>
 </head>
 <body>
 
-<img id="gashat" src="gashat.png" alt="Gashat">
+  <!-- 가샤트 이미지 -->
+  <img id="gashat" src="gashat.png" alt="Gashat">
 
-<audio id="sound" src="on.mp3" preload="auto"></audio>
+  <!-- 분홍 이펙트 -->
+  <div id="effect"></div>
 
-<script>
-  const img = document.getElementById("gashat");
-  const sound = document.getElementById("sound");
+  <!-- 사운드 -->
+  <audio id="sound" src="on.mp3" preload="auto"></audio>
 
-  img.addEventListener("click", () => {
-    sound.currentTime = 0;
-    sound.play();
-    if (navigator.vibrate) {
-      navigator.vibrate(120);
-    }
-  });
-</script>
+  <script>
+    const gashat = document.getElementById("gashat");
+    const sound = document.getElementById("sound");
+    const effect = document.getElementById("effect");
+
+    gashat.addEventListener("click", () => {
+      // 사운드 재생
+      sound.currentTime = 0;
+      sound.play();
+
+      // 진동
+      if (navigator.vibrate) {
+        navigator.vibrate(120);
+      }
+
+      // 분홍빛 이펙트 ON
+      effect.style.opacity = "1";
+
+      // 잠깐 후 OFF
+      setTimeout(() => {
+        effect.style.opacity = "0";
+      }, 150);
+    });
+  </script>
 
 </body>
 </html>
