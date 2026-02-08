@@ -38,10 +38,10 @@
   z-index: 0;          /* <- 여기 원래 2였음 */
 
   background: radial-gradient(circle,
-    rgba(255, 60, 180, 0.6) 0%,
-    rgba(255, 60, 180, 0.45) 35%,
-    rgba(255, 60, 180, 0.2) 60%,
-    rgba(255, 60, 180, 0.05) 80%);
+    rgba(255, 60, 180, 0.8) 0%,
+    rgba(255, 60, 180, 0.65) 35%,
+    rgba(255, 60, 180, 0.3) 60%,
+    rgba(255, 60, 180, 0.1) 80%);
 }
   </style>
 </head>
@@ -99,7 +99,7 @@
 
     // 효과 매핑
     const opacity = Math.min(0.25 + smoothVolume * 1.2, 0.9);
-    const scale = Math.min(0.4 + smoothVolume * 1.8, 0.8);
+    const scale = Math.min(0.6 + smoothVolume * 1.8, 0.8);
 
     effect.style.opacity = opacity;
     effect.style.transform = `scale(${scale})`;
@@ -133,6 +133,7 @@
 
 </body>
 </html>
+
 
 
 
