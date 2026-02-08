@@ -25,24 +25,24 @@
       z-index: 1;
     }
 
-    /* 소리에 반응하는 분홍빛 */
-    #effect {
-      position: fixed;
-      top: -19vh;          /* 빛 위치 (Y축 위로) */
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      opacity: 0;
-      transform: scale(0.8);
-      z-index: 2;
+    /* 분홍빛 이펙트 */
+#effect {
+  position: fixed;
+  top: -19vh;          /* 빛 위치 (Y축 위로) */
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.8);
+  z-index: 2;          /* <- 여기 원래 2였음 */
 
-      background: radial-gradient(circle,
-        rgba(255, 60, 180, 0.6) 0%,
-        rgba(255, 60, 180, 0.35) 35%,
-        rgba(255, 60, 180, 0.15) 55%,
-        rgba(255, 60, 180, 0) 70%);
-    }
+  background: radial-gradient(circle,
+    rgba(255, 60, 180, 0.6) 0%,
+    rgba(255, 60, 180, 0.35) 35%,
+    rgba(255, 60, 180, 0.15) 55%,
+    rgba(255, 60, 180, 0) 70%);
+}
   </style>
 </head>
 <body>
@@ -99,7 +99,7 @@
 
     // 효과 매핑
     const opacity = Math.min(0.25 + smoothVolume * 1.2, 0.9);
-    const scale = Math.min(0.7 + smoothVolume * 1.7, 1);
+    const scale = Math.min(0.5 + smoothVolume * 1.5, 0.8);
 
     effect.style.opacity = opacity;
     effect.style.transform = `scale(${scale})`;
@@ -133,6 +133,7 @@
 
 </body>
 </html>
+
 
 
 
