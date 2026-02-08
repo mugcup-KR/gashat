@@ -28,7 +28,7 @@
     /* 소리에 반응하는 분홍빛 */
     #effect {
       position: fixed;
-      top: -18vh;          /* 빛 위치 (Y축 위로) */
+      top: -19vh;          /* 빛 위치 (Y축 위로) */
       left: 0;
       width: 100vw;
       height: 100vh;
@@ -99,7 +99,7 @@
 
     // 효과 매핑
     const opacity = Math.min(0.25 + smoothVolume * 1.2, 0.9);
-    const scale = Math.min(0.9 + smoothVolume * 2, 0.7);
+    const scale = Math.min(0.8 + smoothVolume * 2, 0.8);
 
     effect.style.opacity = opacity;
     effect.style.transform = `scale(${scale})`;
@@ -133,6 +133,7 @@
 
 </body>
 </html>
+
 
 
 
