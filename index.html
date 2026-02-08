@@ -16,6 +16,7 @@
       touch-action: manipulation;
     }
 
+    /* 가샤트 이미지 */
     #gashat {
       width: 100vw;
       height: 100vh;
@@ -24,15 +25,16 @@
       z-index: 1;
     }
 
-    /* 분홍빛 이펙트 */
+    /* 소리에 반응하는 분홍빛 */
     #effect {
       position: fixed;
-      top: -20vh; /* Y좌표 위로 */
+      top: -20vh;          /* 빛 위치 (Y축 위로) */
       left: 0;
       width: 100vw;
       height: 100vh;
       pointer-events: none;
       opacity: 0;
+      transform: scale(0.8);
       z-index: 2;
 
       background: radial-gradient(circle,
@@ -41,26 +43,6 @@
         rgba(255, 60, 180, 0.15) 55%,
         rgba(255, 60, 180, 0) 70%);
     }
-
-    /* 반복 펄럭이는 애니메이션 */
-    #effect.active {
-      animation: pulse 0.8s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0% {
-        opacity: 0.5;
-        transform: scale(0.8);
-      }
-      50% {
-        opacity: 0.7;
-        transform: scale(1);
-      }
-      100% {
-        opacity: 0.5;
-        transform: scale(0.8);
-      }
-    }
   </style>
 </head>
 <body>
@@ -68,7 +50,7 @@
   <!-- 가샤트 -->
   <img id="gashat" src="gashat.png" alt="Gashat">
 
-  <!-- 분홍빛 -->
+  <!-- 불빛 이펙트 -->
   <div id="effect"></div>
 
   <!-- 사운드 -->
@@ -76,24 +58,69 @@
 
   <script>
     const gashat = document.getElementById("gashat");
-    const sound = document.getElementById("sound");
+    const audio = document.getElementById("sound");
     const effect = document.getElementById("effect");
 
-    gashat.addEventListener("click", () => {
-      // 사운드
-      sound.currentTime = 0;
-      sound.play();
+    // Web Audio API 세팅
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioContext();
+    const source = audioCtx.createMediaElementSource(audio);
+    const analyser = audioCtx.createAnalyser();
 
-      // 진동
+    analyser.fftSize = 256;
+    const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
+
+    let animating = false;
+
+    function animateLight() {
+      if (!animating) return;
+
+      analyser.getByteFrequencyData(dataArray);
+
+      // 소리 평균 크기 계산 (0 ~ 255)
+      let sum = 0;
+      for (let i = 0; i < dataArray.length; i++) {
+        sum += dataArray[i];
+      }
+      const volume = sum / dataArray.length;
+
+      /* 🔧 여기서 네가 마음대로 튜닝 가능 */
+      const opacity = Math.min(0.3 + volume / 350, 0.8); // 투명도
+      const scale = Math.min(0.8 + volume / 280, 1.25);  // 크기
+
+      effect.style.opacity = opacity;
+      effect.style.transform = `scale(${scale})`;
+
+      requestAnimationFrame(animateLight);
+    }
+
+    gashat.addEventListener("click", () => {
+      // 모바일에서 오디오 활성화
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+
+      audio.currentTime = 0;
+      audio.play();
+
       if (navigator.vibrate) {
         navigator.vibrate(120);
       }
 
-      // 분홍빛 반복 시작
-      effect.classList.add("active");
+      animating = true;
+      animateLight();
+    });
+
+    // 소리 끝나면 불빛 자연스럽게 꺼짐
+    audio.addEventListener("ended", () => {
+      animating = false;
+      effect.style.opacity = 0;
+      effect.style.transform = "scale(0.8)";
     });
   </script>
 
 </body>
 </html>
-
