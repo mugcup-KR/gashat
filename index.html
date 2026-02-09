@@ -38,8 +38,8 @@
   z-index: 0;          /* <- 여기 원래 2였음 */
 
   background: radial-gradient(circle,
-    rgba(255, 60, 180, 2) 0%,
-    rgba(255, 60, 180, 1) 20%,
+    rgba(255, 60, 180, 1) 0%,
+    rgba(255, 60, 180, 0.9) 20%,
     rgba(255, 60, 180, 0.5) 35%,
     rgba(255, 60, 180, 0) 50%);
 }
@@ -108,20 +108,22 @@
   }
 
   gashat.addEventListener("click", () => {
-    if (audioCtx.state === "suspended") {
-      audioCtx.resume();
-    }
+  if (animating) return; // 이미 실행 중이면 무시
 
-    audio.currentTime = 0;
-    audio.play();
+  if (audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
 
-    if (navigator.vibrate) {
-      navigator.vibrate(120);
-    }
+  audio.currentTime = 0;
+  audio.play();
 
-    animating = true;
-    animateLight();
-  });
+  if (navigator.vibrate) {
+    navigator.vibrate(120);
+  }
+
+  animating = true;
+  animateLight();
+});
 
   audio.addEventListener("ended", () => {
     animating = false;
@@ -133,6 +135,7 @@
 
 </body>
 </html>
+
 
 
 
