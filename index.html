@@ -118,7 +118,9 @@
   audio.play();
 
   if (navigator.vibrate) {
-    navigator.vibrate(120);
+  setTimeout(() => {
+    navigator.vibrate([100, 50, 100]);
+  }, 50);
   }
 
   animating = true;
@@ -135,6 +137,7 @@
 
 </body>
 </html>
+
 
 
 
